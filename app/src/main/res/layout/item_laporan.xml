@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/bg_card">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/ivProfile"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_account_circle"
+            app:tint="@color/gray" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="8dp">
+
+            <TextView
+                android:id="@+id/tvNama"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Anonymous"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/tvTanggal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15 Jun 2025"
+                android:textSize="12sp"
+                android:textColor="@color/gray"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Judul -->
+    <TextView
+        android:id="@+id/tvJudul"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Terjadi Pungli di Daerah Rancatungku"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/black"/>
+
+    <!-- Isi -->
+    <TextView
+        android:id="@+id/tvIsi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Isi laporan..."
+        android:textSize="14sp"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/black"/>
+
+    <!-- Lokasi -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="4dp">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_location"
+            app:tint="@color/gray" />
+
+        <TextView
+            android:id="@+id/tvLokasi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="Jl. Waas (XHGQ+G9P)"
+            android:textSize="13sp"
+            android:textColor="@color/gray"/>
+    </LinearLayout>
+
+    <!-- Gambar -->
+    <ImageView
+        android:id="@+id/ivLaporan"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="6dp"
+        android:background="@color/gray_light"/>
+
+    <!-- Tombol Aksi -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="8dp">
+
+        <!-- Like -->
+        <LinearLayout
+            android:id="@+id/btnLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/ivLike"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_like_outline"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/tvLikeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="35 Like"
+                android:textSize="14sp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+        <!-- Komentar -->
+        <LinearLayout
+            android:id="@+id/btnComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="4dp"
+            android:layout_marginStart="24dp">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_comment"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/tvKomentar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="Komentar"
+                android:textSize="14sp"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/btnShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="4dp"
+            android:layout_marginStart="24dp">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_share"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/tvShare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="Bagikan"
+                android:textSize="14sp"
+                android:textColor="@color/black"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

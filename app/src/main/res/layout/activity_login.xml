@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_darurat"
+    android:padding="24dp">
+
+    <!-- Logo -->
+<LinearLayout
+android:id="@+id/logo_container"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_centerHorizontal="true"
+android:orientation="vertical"
+android:gravity="center">
+
+<ImageView
+    android:id="@+id/logo"
+    android:layout_width="120dp"
+    android:layout_height="120dp"
+    android:src="@drawable/logoonly"
+android:contentDescription="Logo" />
+
+<TextView
+    android:id="@+id/title_login"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Masuk"
+    android:textSize="24sp"
+    android:textStyle="bold"
+    android:textColor="@color/primary"
+    android:layout_marginTop="16dp"/>
+</LinearLayout>
+
+    <!-- Input Nomor Telepon -->
+<com.google.android.material.textfield.TextInputLayout
+android:id="@+id/layout_phone"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_below="@id/logo_container"
+android:layout_marginTop="40dp"
+android:hint="Nomor Telepon"
+app:startIconDrawable="@drawable/ic_call">
+
+<com.google.android.material.textfield.TextInputEditText
+    android:id="@+id/input_phone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:inputType="phone"
+    android:textColor="@android:color/black"/>
+</com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Input Kata Sandi -->
+<com.google.android.material.textfield.TextInputLayout
+android:id="@+id/layout_password"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_below="@id/layout_phone"
+android:layout_marginTop="16dp"
+android:hint="Kata Sandi"
+app:startIconDrawable="@drawable/ic_lock"
+app:endIconMode="password_toggle">
+
+<com.google.android.material.textfield.TextInputEditText
+    android:id="@+id/input_password"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:inputType="textPassword"
+    android:textColor="@android:color/black"/>
+</com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Lupa Kata Sandi -->
+<TextView
+android:id="@+id/tv_forgot"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Lupa Kata Sandi?"
+android:textColor="@color/primary"
+android:layout_below="@id/layout_password"
+android:layout_alignParentEnd="true"
+android:layout_marginTop="8dp"/>
+
+    <!-- Tombol Masuk -->
+<Button
+android:id="@+id/btn_login"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:text="Masuk"
+android:textColor="@color/gold"
+android:backgroundTint="@color/primary"
+android:layout_below="@id/tv_forgot"
+android:layout_marginTop="24dp"/>
+
+    <!-- Daftar -->
+<LinearLayout
+android:id="@+id/register_container"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+android:layout_below="@id/btn_login"
+android:layout_centerHorizontal="true"
+android:layout_marginTop="16dp">
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Belum Punya Akun?"
+    android:textColor="@android:color/black"/>
+
+<TextView
+    android:id="@+id/tv_register"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text=" Daftar"
+    android:textColor="@color/primary"
+    android:textStyle="bold"/>
+</LinearLayout>
+
+    </RelativeLayout>

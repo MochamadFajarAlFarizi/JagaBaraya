@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_card"
+    android:padding="8dp"
+    android:layout_marginBottom="12dp">
+
+    <!-- Gambar Utama Berita -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_light"
+        android:clipToOutline="true">
+
+        <ImageView
+            android:id="@+id/ivBerita"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:contentDescription="Gambar berita" />
+
+        <!-- Tag kategori -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentTop="true"
+            android:layout_margin="8dp">
+
+            <TextView
+                android:id="@+id/tvKategori1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_tag"
+                android:text="Kategori"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:padding="4dp"
+                android:layout_marginEnd="4dp" />
+
+            <TextView
+                android:id="@+id/tvKategori2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_tag"
+                android:text="Kategori"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:padding="4dp" />
+        </LinearLayout>
+
+        <!-- Judul di bagian bawah gambar -->
+        <TextView
+            android:id="@+id/tvJudulBerita"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_gradient_black"
+            android:text="Judul Berita"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:padding="8dp" />
+    </RelativeLayout>
+
+    <!-- Sumber berita -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="4dp">
+
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/ic_info"
+            app:tint="@color/gray" />
+
+        <TextView
+            android:id="@+id/tvSumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sumber Berita"
+            android:layout_marginStart="4dp"
+            android:textSize="13sp"
+            android:textColor="@color/gray"/>
+    </LinearLayout>
+</LinearLayout>

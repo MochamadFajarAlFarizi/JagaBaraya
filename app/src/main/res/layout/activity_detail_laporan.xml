@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <!-- Konten laporan -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="397dp"
+        android:layout_weight="1"
+        android:padding="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/ic_account_circle"
+                    app:tint="@color/gray" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvNamaDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Anonymous"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvTanggalDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="15 Jun 2025"
+                        android:textColor="@color/gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Judul -->
+            <TextView
+                android:id="@+id/tvJudulDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Judul laporan"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- Isi -->
+            <TextView
+                android:id="@+id/tvIsiDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Isi laporan..."
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <!-- Lokasi -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_location"
+                    app:tint="@color/gray" />
+
+                <TextView
+                    android:id="@+id/tvLokasiDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="Lokasi"
+                    android:textColor="@color/gray"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- Gambar -->
+            <ImageView
+                android:id="@+id/ivDetail"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="6dp"
+                android:background="@color/gray_light"
+                android:scaleType="centerCrop" />
+
+            <!-- Aksi (Like, Comment, Share) -->
+            <LinearLayout
+                android:id="@+id/layoutlcs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="16dp">
+
+                <!-- Like -->
+                <LinearLayout
+                    android:id="@+id/btnLike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="4dp">
+
+                    <ImageView
+                        android:id="@+id/ivLike"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_like_outline"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvLikeCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="35 Like"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+
+                <!-- Komentar -->
+                <LinearLayout
+                    android:id="@+id/btnComment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="4dp"
+                    android:layout_marginStart="24dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_comment"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvKomentar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="Komentar"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+
+                <!-- Share -->
+                <LinearLayout
+                    android:id="@+id/btnShare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="4dp"
+                    android:layout_marginStart="24dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_share"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvShare"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="Bagikan"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Komentar -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvKomentar"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:background="@color/gray_light"
+        android:padding="8dp"/>
+
+    <!-- Input Komentar -->
+    <LinearLayout
+        android:id="@+id/layoutkomen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/etKomentar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Tulis komentar..."
+            android:background="@drawable/bg_edittext_border"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/btnKirimKomentar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kirim"
+            android:textColor="@color/primary"
+            android:padding="8dp"/>
+    </LinearLayout>
+</LinearLayout>

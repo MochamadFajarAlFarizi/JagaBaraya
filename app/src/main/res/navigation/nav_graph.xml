@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/laporanFragment">
+
+    <!-- Halaman utama laporan -->
+    <fragment
+        android:id="@+id/laporanFragment"
+        android:name="com.fajar.jagabaraya.LaporanFragment"
+        android:label="LaporanFragment" />
+
+    <!-- Form lapor -->
+    <fragment
+        android:id="@+id/laporForumFragment"
+        android:name="com.fajar.jagabaraya.LaporForumFragment"
+        android:label="LaporForumFragment">
+
+        <!-- Action untuk balik ke halaman laporan -->
+        <action
+            android:id="@+id/action_laporForumFragment_to_laporanFragment"
+            app:destination="@id/laporanFragment" />
+    </fragment>
+
+</navigation>

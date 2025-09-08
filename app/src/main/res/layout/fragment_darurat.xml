@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_darurat">
+
+
+    <!-- Logo -->
+    <LinearLayout
+        android:id="@+id/logo_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/logo_darurat"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/logoonly"
+            android:contentDescription="Logo Darurat"/>
+
+        <TextView
+            android:id="@+id/title_darurat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Panggilan Darurat"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/primary" />
+    </LinearLayout>
+
+    <!-- Tombol -->
+    <LinearLayout
+        android:id="@+id/button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_below="@id/logo_container"
+        android:layout_marginTop="50dp">
+
+        <Button
+            android:id="@+id/btn_callCenter"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/primary"
+            android:text="Call Center 110"
+            android:textColor="@color/gold"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/btn_Whatsapp"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/primary"
+            android:text="Whatsapp"
+            android:textColor="@color/gold"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/btn_PMI"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/primary"
+            android:text="Ambulance"
+            android:textColor="@color/gold"/>
+    </LinearLayout>
+
+</RelativeLayout>
