@@ -1,59 +1,85 @@
 package com.fajar.jagabaraya
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var ivLogout: ImageView
+    private lateinit var menuEditProfil: LinearLayout
+    private lateinit var menuLaporanku: LinearLayout
+    private lateinit var menuBahasa: LinearLayout
+    private lateinit var tvNama: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        ivLogout = view.findViewById(R.id.ivLogout)
+        menuEditProfil = view.findViewById(R.id.menuEditProfil)
+        menuLaporanku = view.findViewById(R.id.menuLaporanku)
+        menuBahasa = view.findViewById(R.id.menuBahasa)
+        tvNama= view.findViewById(R.id.tvNama)
+
+        tvNama.text = "Fajar Ganteng"
+
+        // Tombol Logout
+        ivLogout.setOnClickListener {
+            showLogoutDialog()
+        }
+
+        // Menu Edit Profil -> buka fragment EditProfil
+        menuEditProfil.setOnClickListener {
+            openFragment(EditProfilFragment())
+        }
+
+        // Menu Laporanku -> buka fragment Laporanku
+        menuLaporanku.setOnClickListener {
+            openFragment(LaporankuFragment())
+        }
+
+        // Menu Bahasa -> buka setting bahasa sistem
+        menuBahasa.setOnClickListener {
+            val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            startActivity(intent)
+        }
+    }
+
+    private fun showLogoutDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Logout")
+            .setMessage("Apakah Anda yakin ingin logout?")
+            .setPositiveButton("Ya") { _, _ ->
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                requireActivity().finish()
             }
+            .setNegativeButton("Batal", null)
+            .show()
+    }
+
+    private fun openFragment(fragment: Fragment) {
+        parentFragmentManager.beginTransaction()
+            .replace(id, fragment) // id = id dari fragment_profile.xml yang sedang dipasang
+            .addToBackStack(null)
+            .commit()
     }
 }
