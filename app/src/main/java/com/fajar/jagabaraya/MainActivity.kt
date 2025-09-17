@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Tampilkan default HomeFragment
+
         loadFragment(HomeFragment())
 
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         val fabOption1 = findViewById<FloatingActionButton>(R.id.fab_option1)
         val fabOption2 = findViewById<FloatingActionButton>(R.id.fab_option2)
 
-        // Navigasi antar fragment
+
         bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> loadFragment(HomeFragment())
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        // Toggle expandable FAB
+
         fab.setOnClickListener {
             if (isFabExpanded) {
                 fabOption1.hide()
@@ -45,12 +45,12 @@ class MainActivity : AppCompatActivity() {
             isFabExpanded = !isFabExpanded
         }
 
-        // Aksi dari fab tambahan
+
         fabOption1.setOnClickListener {
-            // contoh aksi untuk fab 1
+
             loadFragment(DaruratFragment())
 
-            // Tutup menu FAB biar rapi setelah diklik
+
             fab.hide()
             fabOption1.hide()
             fabOption2.hide()
@@ -58,10 +58,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         fabOption2.setOnClickListener {
-            // Buka LaporForumFragment
+
             loadFragment(LaporForumFragment())
 
-            // Tutup menu FAB biar rapi setelah diklik
+
             fab.hide()
             fabOption1.hide()
             fabOption2.hide()
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.nav_host_fragment, fragment)
-            .addToBackStack(null) // supaya bisa back
+            .addToBackStack(null) 
             .commit()
     }
 

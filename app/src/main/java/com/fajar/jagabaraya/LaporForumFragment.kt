@@ -1,8 +1,8 @@
 package com.fajar.jagabaraya
 
-
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.ColorDrawable
@@ -17,13 +17,18 @@ import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.firebase.firestore.FirebaseFirestore
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 import java.io.IOException
-import java.util.Locale
+import java.text.SimpleDateFormat
+import java.util.*
 
 class LaporForumFragment : Fragment() {
 
@@ -37,9 +42,13 @@ class LaporForumFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private var imageUri: Uri? = null
+    private var progressDialog: Dialog? = null
 
     private val REQUEST_CAMERA = 1001
     private val REQUEST_GALLERY = 1002
+
+    private val cloudName = "dzofhsgzp"
+    private val uploadPreset = "infracare"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +63,7 @@ class LaporForumFragment : Fragment() {
         btnLaporkan = view.findViewById(R.id.btnLaporkan)
         switchAnonymous = view.findViewById(R.id.switchAnonymous)
 
-        // Preview image di upload box
+
         ivPreview = ImageView(requireContext())
         ivPreview.layoutParams =
             FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
@@ -62,29 +71,109 @@ class LaporForumFragment : Fragment() {
         ivPreview.visibility = View.GONE
         layoutUpload.addView(ivPreview)
 
-        // Klik Upload
+
         layoutUpload.setOnClickListener {
             showImagePickerDialog()
         }
 
-        // Klik Laporkan
+
         btnLaporkan.setOnClickListener {
             if (validateForm()) {
                 val isAnonymous = switchAnonymous.isChecked
                 val namaUser = if (isAnonymous) "Anonymous" else getUserName()
 
-                Toast.makeText(requireContext(), "Lapor sebagai: $namaUser", Toast.LENGTH_SHORT).show()
-                showCustomProgress()
+                showLoadingDialog()
+
+                if (imageUri != null) {
+                    uploadImageToCloudinary(imageUri!!) { url ->
+                        if (url != null) {
+                            requireActivity().runOnUiThread {
+                                saveReportToFirestore(namaUser, url)
+                            }
+                        } else {
+                            requireActivity().runOnUiThread {
+                                hideLoadingDialog()
+                                Toast.makeText(requireContext(), "Upload gambar gagal", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                } else {
+                    saveReportToFirestore(namaUser, "")
+                }
             }
         }
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
-        getCurrentLocation() // panggil otomatis saat buka form
-
+        getCurrentLocation()
 
         return view
     }
+
+
+    private fun uploadImageToCloudinary(uri: Uri, onResult: (String?) -> Unit) {
+        val url = "https://api.cloudinary.com/v1_1/$cloudName/image/upload"
+
+        val inputStream = requireContext().contentResolver.openInputStream(uri)
+        val requestBody = inputStream?.readBytes()?.toRequestBody("image/*".toMediaTypeOrNull())
+
+        val multipartBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("file", "upload.jpg", requestBody!!)
+            .addFormDataPart("upload_preset", uploadPreset)
+            .build()
+
+        val request = Request.Builder()
+            .url(url)
+            .post(multipartBody)
+            .build()
+
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                onResult(null)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val json = response.body?.string()
+                val imageUrl = JSONObject(json!!).getString("secure_url")
+                onResult(imageUrl)
+            }
+        })
+    }
+
+
+    private fun saveReportToFirestore(userName: String, imageUrl: String) {
+        val db = FirebaseFirestore.getInstance()
+        val tanggalString = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
+            .format(System.currentTimeMillis())
+
+        val laporan = hashMapOf(
+            "createdBy" to userName,
+            "judul" to etJudul.text.toString(),
+            "isi" to etDeskripsi.text.toString(),
+            "kategori" to "forum",
+            "lokasi" to etLokasi.text.toString(),
+            "imageUrl" to imageUrl,
+            "likeCount" to 0,
+            "likedBy" to listOf<String>(),
+            "status" to "Diterima",
+            "tanggal" to tanggalString
+        )
+
+        db.collection("laporan")
+            .add(laporan)
+            .addOnSuccessListener {
+                hideLoadingDialog()
+                Toast.makeText(requireContext(), "Laporan berhasil disimpan", Toast.LENGTH_SHORT).show()
+                val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+                bottomNav.selectedItemId = R.id.home
+            }
+            .addOnFailureListener { e ->
+                hideLoadingDialog()
+                Toast.makeText(requireContext(), "Gagal simpan: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
 
     private fun showImagePickerDialog() {
         val options = arrayOf("Kamera", "Galeri")
@@ -102,44 +191,16 @@ class LaporForumFragment : Fragment() {
         if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CAMERA)
             != PackageManager.PERMISSION_GRANTED
         ) {
-            // Minta izin kamera
             ActivityCompat.requestPermissions(
                 requireActivity(),
                 arrayOf(android.Manifest.permission.CAMERA),
                 REQUEST_CAMERA
             )
         } else {
-            // Jika sudah diizinkan, buka kamera
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(intent, REQUEST_CAMERA)
         }
     }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == 2001) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getCurrentLocation()
-            } else {
-                Toast.makeText(requireContext(), "Izin lokasi diperlukan untuk mengisi otomatis", Toast.LENGTH_SHORT).show()
-            }
-        } else if (requestCode == REQUEST_CAMERA) {
-            // kode kamera tetap sama
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                startActivityForResult(intent, REQUEST_CAMERA)
-            } else {
-                Toast.makeText(requireContext(), "Izin kamera diperlukan", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -178,32 +239,8 @@ class LaporForumFragment : Fragment() {
         return true
     }
 
-    private fun showCustomProgress() {
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_progress, null)
-        val dialog = AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-            .setCancelable(false)
-            .create()
-
-        dialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
-        dialog.show()
-
-        // Simulasi kirim data 3 detik
-        dialogView.postDelayed({
-            dialog.dismiss()
-
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment, LaporanFragment())
-                .addToBackStack(null)
-                .commit()
-
-            val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-            bottomNav.selectedItemId = R.id.laporanku
-        }, 3000)
-    }
-
     private fun getUserName(): String {
-        return "Fajar Al Farizi" // misalnya ambil dari user login
+        return "Fajar Al Farizi"
     }
 
     private fun getCurrentLocation() {
@@ -221,7 +258,7 @@ class LaporForumFragment : Fragment() {
                     val geocoder = Geocoder(requireContext(), Locale.getDefault())
                     val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
                     if (addresses != null && addresses.isNotEmpty()) {
-                        val address = addresses[0].getAddressLine(0) // alamat lengkap
+                        val address = addresses[0].getAddressLine(0)
                         etLokasi.setText(address)
                     } else {
                         etLokasi.setText("${location.latitude}, ${location.longitude}")
@@ -234,4 +271,16 @@ class LaporForumFragment : Fragment() {
     }
 
 
+    private fun showLoadingDialog() {
+        progressDialog = Dialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.dialog_progress, null)
+        progressDialog?.setContentView(view)
+        progressDialog?.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+        progressDialog?.setCancelable(false)
+        progressDialog?.show()
+    }
+
+    private fun hideLoadingDialog() {
+        progressDialog?.dismiss()
+    }
 }
